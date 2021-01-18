@@ -598,6 +598,9 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Samet/Desktop/Unity/Pokey Ball Clone/PokeyBallClone/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>C:/Users/Samet/Desktop/Unity/Pokey Ball Clone/PokeyBallClone/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Users/Samet/Desktop/Unity/Pokey Ball Clone/PokeyBallClone/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
@@ -616,17 +619,14 @@
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Users/Samet/Desktop/Unity/Pokey Ball Clone/PokeyBallClone/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+      <HintPath>C:/Users/Samet/Desktop/Unity/Pokey Ball Clone/PokeyBallClone/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>C:/Users/Samet/Desktop/Unity/Pokey Ball Clone/PokeyBallClone/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/Samet/Desktop/Unity/Pokey Ball Clone/PokeyBallClone/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Cinemachine">
-      <HintPath>C:/Users/Samet/Desktop/Unity/Pokey Ball Clone/PokeyBallClone/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-      <HintPath>C:/Users/Samet/Desktop/Unity/Pokey Ball Clone/PokeyBallClone/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>

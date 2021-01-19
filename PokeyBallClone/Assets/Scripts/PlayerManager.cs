@@ -20,9 +20,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] GameObject stickParent;
     [SerializeField] GameObject stick;
     [SerializeField] GameObject sphere;
+    [SerializeField] GameObject blackHole;
     Animator stickAnim;
     Rigidbody rb;
     Transform sphereParent;
+    DetecPointType detecPointType;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,13 +33,14 @@ public class PlayerManager : MonoBehaviour
         stickAnim = stickParent.GetComponent<Animator>();
         rb = sphere.GetComponent<Rigidbody>();
         initialSphereLocalPosition = sphere.transform.localPosition;
+        detecPointType = GetComponent<DetecPointType>();
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-       
+
+     
         GetForce();
         AnimateStick();
   
@@ -84,6 +87,7 @@ public class PlayerManager : MonoBehaviour
                     sphere.transform.parent = null;
                     stickParent.transform.parent = sphere.transform;
                     stopSphere = true;
+                    AddBlackHole();
                 }
             }
         }
@@ -92,6 +96,13 @@ public class PlayerManager : MonoBehaviour
             StopForce();
             
         }
+    }
+
+    private void AddBlackHole()
+    {
+        GameObject oldHole = Instantiate(blackHole, blackHole.transform.position, blackHole.transform.rotation);
+        oldHole.transform.localScale = new Vector3(0.1831896f, 0.1953195f, 0.1777989f);
+        blackHole.SetActive(false);
     }
 
     private void GetForceAmount()
@@ -126,11 +137,12 @@ public class PlayerManager : MonoBehaviour
         if (Input.touchCount > 0)
         {
             GetNextPosition();
-            print("End");
             Invoke("SetSphereFree", 0.2f);
             stick.SetActive(true);
+            blackHole.SetActive(true);
             stopSphere = false;
             stickParent.transform.parent = null;
+            //print(detecPointType.GetPointType(sphere));
             sphere.transform.parent = sphereParent;
             FixStickPosition();
         }

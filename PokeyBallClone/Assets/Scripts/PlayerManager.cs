@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     bool sphereAnim;
     bool sphereFree;
     bool stopSphere;
+    bool openTrail = true;
 
     Touch touch;
     [SerializeField] GameObject stickParent;
@@ -25,6 +26,15 @@ public class PlayerManager : MonoBehaviour
     Rigidbody rb;
     Transform sphereParent;
     DetecPointType detecPointType;
+    SoundManager soundManager;
+
+    enum soundType
+    {
+        metal,
+        wood,
+        fly
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +44,10 @@ public class PlayerManager : MonoBehaviour
         rb = sphere.GetComponent<Rigidbody>();
         initialSphereLocalPosition = sphere.transform.localPosition;
         detecPointType = GetComponent<DetecPointType>();
+        soundManager = GetComponent<SoundManager>();
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -83,6 +96,8 @@ public class PlayerManager : MonoBehaviour
                 {
                     SetSphereFree();
                     AddForce();
+                    TrailEffect();
+                    PlaySound(soundType.fly.ToString());
                     sphereParent = sphere.transform.parent.transform;
                     sphere.transform.parent = null;
                     stickParent.transform.parent = sphere.transform;
@@ -94,7 +109,21 @@ public class PlayerManager : MonoBehaviour
         else if (stopSphere)
         {
             StopForce();
-            
+           
+        }
+    }
+
+    private void TrailEffect()
+    {
+        if (openTrail)
+        {
+            sphere.transform.GetChild(0).gameObject.SetActive(true);
+            openTrail = false;
+        }
+        else
+        {
+            sphere.transform.GetChild(0).gameObject.SetActive(false);
+            openTrail = true;
         }
     }
 
@@ -136,23 +165,47 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.touchCount > 0)
         {
-            GetNextPosition();
-            Invoke("SetSphereFree", 0.2f);
-            stick.SetActive(true);
-            blackHole.SetActive(true);
-            stopSphere = false;
-            stickParent.transform.parent = null;
-            //print(detecPointType.GetPointType(sphere));
-            sphere.transform.parent = sphereParent;
-            FixStickPosition();
+            if (DetectSurfaceType()){
+                GetNextPosition();
+                PlaySound(soundType.wood.ToString());
+                Invoke("SetSphereFree", 0.2f);
+                stick.SetActive(true);
+                blackHole.SetActive(true);
+                stopSphere = false;
+                stickParent.transform.parent = null;
+                sphere.transform.parent = sphereParent;
+                FixStickPosition();
+                TrailEffect();
+            }
+            else
+            {
+                FallDown();
+                PlaySound(soundType.metal.ToString());
+            }
         }
+    }
+
+    void PlaySound(string soundType)
+    {
+        soundManager.PlaySound(soundType);
+    }
+
+    private void FallDown()
+    {
+        rb.velocity = new Vector3(0, 0, 0);
+        rb.useGravity = true;
+    }
+
+    private bool DetectSurfaceType()
+    {
+        return detecPointType.DrawRay(sphere.transform);
     }
 
     private void FixStickPosition()
     {
        
         sphere.transform.localPosition = initialSphereLocalPosition;
-        
+        stickParent.transform.position -= new Vector3(0, 1f, 0);
     }
 
     void SetSphereFree()

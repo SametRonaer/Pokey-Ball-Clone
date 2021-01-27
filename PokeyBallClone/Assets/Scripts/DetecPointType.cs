@@ -5,18 +5,48 @@ using UnityEngine;
 public class DetecPointType : MonoBehaviour
 {
     Ray ray;
+    string rayHitTag;
+    PointManager pointManager;
     private void Start()
     {
-        
+        //DrawRay();
+        pointManager = GetComponent<PointManager>();
     }
 
-    public int GetPointType(GameObject sphere)
+    public bool DrawRay(Transform sphere)
     {
-        ray = new Ray(sphere.transform.position, new Vector3(0, 0, 1));
-      
-       // Physics.Raycast()
-        return (int)Vector3.Magnitude(sphere.transform.position);
+        Vector3 dir = -Vector3.forward*100;
+        Debug.DrawRay(sphere.position, dir, Color.blue, 10, false);
+        ray = new Ray(sphere.position, dir);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit);
+        rayHitTag = hit.collider.gameObject.tag;
+        print(rayHitTag);
+        return CheckSurface(rayHitTag);
     }
+
+    bool CheckSurface(string rayHitTag)
+    {
+        if(rayHitTag == "Stone")
+        {
+            print("Stop");
+            return false;
+        }
+        else if(rayHitTag == "Wall")
+        {
+            print("Contiune");
+
+        }
+        else
+        {
+            pointManager.SetPointText(rayHitTag);
+        }
+
+        return true;
+    }
+
+
+  
 
 
    
